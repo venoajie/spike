@@ -89,6 +89,7 @@ class StreamingDataBinance:
                         # Receive WebSocket messages
                         message: bytes = await self.websocket_client.recv()
                         message: dict = orjson.loads(message)
+                        log.debug(f"message: {message}")
 
                         # queing message to dispatcher
                         await queue_general.put(message)
