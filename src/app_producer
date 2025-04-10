@@ -58,9 +58,9 @@ async def main():
                                          
         await asyncio.sleep(0.0005)
         
-        asyncio.run(
+        await asyncio.gather(
             
-            producer_task_binance,
+            producer_task_binance
                                 )  
 
         await queue.join()
