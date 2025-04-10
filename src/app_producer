@@ -58,7 +58,7 @@ async def main():
                                          
         await asyncio.sleep(0.0005)
         
-        await asyncio.gather(
+        await asyncio.run(
             
             producer_task_binance,
                                 )  
