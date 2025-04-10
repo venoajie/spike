@@ -23,9 +23,9 @@ async def main():
     # registering strategy config file    
     file_toml = "config_strategies.toml"
     
+    sub_account_id = "deribit-148510"
+    
     try:
-
-        private_data: object = api_requests.SendApiRequest(sub_account_id)
 
         pool = aioredis.ConnectionPool.from_url(
             "redis://localhost", 
@@ -45,8 +45,7 @@ async def main():
         redis_channels: dict = config_app["redis_channels"][0]
 
         queue = Queue(maxsize=1)
-        
-        stream = StreamingAccountData(sub_account_id)
+
         stream_binance = StreamingDataBinance(sub_account_id)
                 
         producer_task_binance = asyncio.create_task(
