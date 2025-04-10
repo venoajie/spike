@@ -94,8 +94,8 @@ class StreamingDataBinance:
                             data = message.get("data", None)
                             log.debug(f"message: {data}")
 
-                        # queing message to dispatcher
-                        await queue_general.put(message)
+                            # queing message to dispatcher
+                            await queue_general.put(message)
 
             except Exception as error:
 
