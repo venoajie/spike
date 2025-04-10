@@ -4,7 +4,6 @@
 # built ins
 import asyncio
 from asyncio import Queue
-import signal
 import sys
 
 # installed
