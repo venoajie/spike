@@ -38,7 +38,7 @@ async def relaying_result(
         # subscribe to channels
         [await pubsub.subscribe(o) for o in channels]
 
-        while not_cancel:
+        while True:
 
             try:
 
