@@ -83,3 +83,7 @@ async def relaying_result(
 
         system_tools.parse_error_message(error)
 
+
+async def sending_telegram(
+    data: list,
+) -> None:
