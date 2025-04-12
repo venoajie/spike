@@ -3,11 +3,16 @@
 
 # built ins
 import asyncio
+import telegram
 
 # installed
 from loguru import logger as log
 
 # user defined formula
+
+# user defined formula
+from configuration import config
+
 
 from messaging import (
     get_published_messages,
@@ -90,5 +95,45 @@ async def sending_telegram(
     data: list,
 ) -> None:
     
+    """
+    noticeType = [
+        PRICE_BREAKTHROUGH, 
+        PRICE_CHANGE, 
+        PRICE_FLUCTUATION
+        ]
+        
+    eventType = [
+        DOWN_BREAKTHROUGH,
+        RISE_AGAIN,
+        DROP_BACK,
+        UP_BREAKTHROUGH
+        ]
 
+    period = [
+        WEEK_1,
+        DAY_1,
+        MONTH_1,
+        MINUTE_5,
+        ]
+
+    
+    """
+    
+    noticeType = data["noticeType"]
+    symbol = data["symbol"]
+    eventType = data["eventType"]
+    priceChange = data["priceChange"]
+    period = data["period"]
+    sendTimestamp = data["sendTimestamp"]
+    baseAsset = data["baseAsset"]
+    quotaAsset = data["quotaAsset"]
+
+    TOKEN = config.main_dotenv("telegram-binance")["bot_token"]
+    chat_id = config.main_dotenv("telegram-bot_chatID")["bot_token"]
+    # Channel ID Sample: -1001829542722
+    bot = telegram.Bot(token=TOKEN)
+    
     log.error(data)
+
+    await bot.send_message(text=data, chat_id=chat_id)
+    
