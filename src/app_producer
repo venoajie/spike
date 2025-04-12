@@ -15,6 +15,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from messaging import telegram_bot as tlgrm
 from streaming_data.data_producer_binance import StreamingDataBinance
+from transaction_management.binance import distributing_ws_data as distr_binance
 from utilities import string_modification as str_mod, system_tools
 
 
@@ -55,12 +56,24 @@ async def main():
                 queue,
 )
             ) 
+                        
+        saving_task_binance = asyncio.create_task(
+            distr_binance.caching_distributing_data(
+                client_redis,
+                currencies,
+                redis_channels,
+                redis_keys,
+                queue,
+                )
+            ) 
                                          
         await asyncio.sleep(0.0005)
         
         await asyncio.gather(
             
-            producer_task_binance
+            producer_task_binance,
+
+            saving_task_binance,
                                 )  
 
         await queue.join()
