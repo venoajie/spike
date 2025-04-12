@@ -56,6 +56,9 @@ async def relaying_result(
 
 
             except Exception as error:
+                
+                log.error(error)
+                log.info(params)
 
                 await tlgrm.telegram_bot_sendtext(
                     f"cancelling active orders - {error}",
