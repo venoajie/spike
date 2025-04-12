@@ -87,3 +87,5 @@ async def relaying_result(
 async def sending_telegram(
     data: list,
 ) -> None:
+    
+    pass
