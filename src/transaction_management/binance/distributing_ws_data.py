@@ -40,6 +40,10 @@ async def caching_distributing_data(
                 try:
 
                     message_channel: str = message_params.get("stream")
+                    
+                    log.info(message_params)
+                    log.warning(message_channel)
+                        
 
                     if message_channel:
 
