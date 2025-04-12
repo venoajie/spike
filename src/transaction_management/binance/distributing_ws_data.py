@@ -10,7 +10,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from db_management import redis_client
 from messaging import telegram_bot as tlgrm
-from utilities import caching, pickling, string_modification as str_mod, system_tools
+from utilities import string_modification as str_mod, system_tools
 
 
 async def caching_distributing_data(
