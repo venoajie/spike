@@ -151,7 +151,7 @@ async def sending_telegram(
     exchange = ccxt.binance()
     timeframe = '5m'
     limit = 1
-    fetch_ohlcv(exchange, symbol, timeframe, limit)
+    await fetch_ohlcv(exchange, symbol, timeframe, limit)
     
     
     if "MINUTE" in period:
