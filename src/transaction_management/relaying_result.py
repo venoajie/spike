@@ -99,9 +99,7 @@ async def relaying_result(
         system_tools.parse_error_message(error)
 
 
-async def sending_telegram(
-    data: list,
-) -> None:
+async def sending_telegram(data: list) -> None:
     
     """
     noticeType = [
@@ -154,7 +152,7 @@ async def sending_telegram(
     
     if "MINUTE" in period:
         
-        movement = await fetch_ohlcv(exchange, symbol, timeframe, limit)
+        movement = await compute_result(exchange, symbol, timeframe, limit)
         
         message.update(
             {
@@ -172,28 +170,98 @@ async def sending_telegram(
         
         await bot.send_message(text=movement, chat_id=chat_id)    
     
-async def fetch_ohlcv(exchange, symbol, timeframe, limit):
+async def compute_result(
+    exchange: str, 
+    symbol: str, 
+    timeframe: str, 
+    limit: int,
+    ) ->str:
+        
+    """ 
+    
+    """
+        
     since = None
     
+    wording = ""
+    
     ohlcv = await exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-    ticker = await exchange.fetch_ticker(symbol)
-    await exchange.close()
+    ticker = await get_ticker(symbol)
     
     if len(ohlcv):
         first_candle = ohlcv[0]
-        datetime = exchange.iso8601(first_candle[0])
+        datetime = ticker["datetime"]
+        last = ticker["last"]
         open = (first_candle[1])
         close = (first_candle[3])
         
-        delta = open - close
+        delta = open - last
         delta_pct = delta/open
         
         
 
         log.debug(first_candle)
-        log.warning(f"open: {open}, close: {close} delta: {delta}, delta_pct: {delta_pct}")
+        log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
         wording = (f"at {datetime} coin {symbol} has changed {delta_pct}% in the last {timeframe}")
         log.error (wording)
         log.error (f"ticker {ticker}")
-        return wording  
+    
+    await exchange.close()
+    
+    return wording  
+
+
+async def get_ticker(symbol: str) -> dict:
+        
+    """ 
+    example: {
+        'symbol': 'HARD/USDT', 
+        'timestamp': 1744501380384, 
+        'datetime': '2025-04-12T23:43:00.384Z', 
+        'high': 0.0319, 
+        'low': 0.0202,
+        'bid': 0.0224, 
+        'bidVolume': 2176.0, 
+        'ask': 0.0226, 
+        'askVolume': 4170.0, 
+        'vwap': 0.02514621, 
+        'open': 0.0319, 
+        'close': 0.0226,
+        'last': 0.0226, 
+        'previousClose': 0.0318, 
+        'change': -0.0093, 
+        'percentage': -29.154, 
+        'average': 0.0272, 
+        'baseVolume': 25033279.0, 
+        'quoteVolume': 629492.088,
+        'markPrice': None, 
+        'indexPrice': None,
+        'info': {
+            'symbol': 'HARDUSDT', 
+            'priceChange': '-0.00930000', 
+            'priceChangePercent': '-29.154',
+            'weightedAvgPrice': '0.02514621',
+            'prevClosePrice': '0.03180000', 
+            'lastPrice': '0.02260000', 
+            'lastQty': '2252.00000000', 
+            'bidPrice': '0.02240000', 
+            'bidQty': '2176.00000000', 
+            'askPrice': '0.02260000', 
+            'askQty': '4170.00000000', 
+            'openPrice': '0.03190000', 
+            'highPrice': '0.03190000', 
+            'lowPrice': '0.02020000', 
+            'volume': '25033279.00000000', 
+            'quoteVolume': '629492.08800000', 
+            'openTime': 1744414980384, 
+            'closeTime': 1744501380384,
+            'firstId': 41880405, 
+            'lastId': 41897290, 
+            'count': 16886
+            }
+            }
+    
+    """
+        
+    return await exchange.fetch_ticker(symbol)
