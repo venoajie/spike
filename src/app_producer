@@ -41,9 +41,9 @@ async def main():
         
         # parsing config file
         config_app = system_tools.get_config_tomli(file_toml)
-
+        
         # get redis channels
-        redis_channels: dict = []
+        redis_channels: dict = config_app["redis_channels"][0]
 
         queue = Queue(maxsize=1)
 
