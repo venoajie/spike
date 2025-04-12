@@ -42,7 +42,7 @@ class StreamingDataBinance:
     client_secret: str = fields
     # Async Event Loop
     loop = asyncio.get_event_loop()
-    ws_connection_url: str = "wss://bstream.binance.com:9443/stream?"
+    ws_connection_notice_url: str = "wss://bstream.binance.com:9443/stream?"
     # Instance Variables
     websocket_client: websockets.WebSocketClientProtocol = None
     refresh_token: str = None
@@ -56,7 +56,7 @@ class StreamingDataBinance:
     ) -> None:
 
         async with websockets.connect(
-            self.ws_connection_url,
+            self.ws_connection_notice_url,
             ping_interval=None,
             compression=None,
             close_timeout=60,
