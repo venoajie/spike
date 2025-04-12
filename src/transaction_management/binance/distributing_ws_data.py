@@ -15,7 +15,6 @@ from utilities import string_modification as str_mod, system_tools
 
 async def caching_distributing_data(
     client_redis: object,
-    currencies: list,
     redis_channels: list,
     redis_keys: list,
     queue_general: object,

@@ -60,7 +60,6 @@ async def main():
         saving_task_binance = asyncio.create_task(
             distr_binance.caching_distributing_data(
                 client_redis,
-                currencies,
                 redis_channels,
                 redis_keys,
                 queue,
