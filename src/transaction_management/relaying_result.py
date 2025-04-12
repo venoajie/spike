@@ -55,10 +55,7 @@ async def relaying_result(
 
                 if abnormal_trading_notices_channel in message_channel:
 
-                    await sending_telegram(
-    data,
-)
-
+                    await sending_telegram(data)
 
             except Exception as error:
                 
@@ -101,7 +98,9 @@ async def sending_telegram(
         DOWN_BREAKTHROUGH,
         RISE_AGAIN,
         DROP_BACK,
-        UP_BREAKTHROUGH
+        UP_BREAKTHROUGH,
+        UP_2,
+        UP_1
         ]
 
     period = [
@@ -109,6 +108,7 @@ async def sending_telegram(
         DAY_1,
         MONTH_1,
         MINUTE_5,
+        HOUR_2
         ]
 
     
@@ -129,15 +129,17 @@ async def sending_telegram(
     sendTimestamp = data["sendTimestamp"]
     baseAsset = data["baseAsset"]
     quotaAsset = data["quotaAsset"]
-    message.update(
-        {
-            "noticeType": noticeType,
-            "symbol": symbol,
-            "eventType": eventType,
-            "priceChange": priceChange,
-            "period": period,
-        }
-    )
     
-    await bot.send_message(text=message, chat_id=chat_id)
+    if "MINUTE" in period:
+        message.update(
+            {
+                "type": noticeType,
+                "symbol": symbol,
+                "event": eventType,
+                "price change": priceChange,
+                "period": period,
+            }
+        )
+        
+        await bot.send_message(text=message, chat_id=chat_id)
     
