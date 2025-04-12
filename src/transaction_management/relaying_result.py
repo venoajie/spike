@@ -9,7 +9,6 @@ from loguru import logger as log
 
 # user defined formula
 
-from db_management import sqlite_management as db_mgt
 from messaging import (
     get_published_messages,
     telegram_bot as tlgrm,
