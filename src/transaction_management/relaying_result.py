@@ -174,6 +174,9 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
     since = None
     
     ohlcv = await exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+    
+    await exchange.close()
+    
     if len(ohlcv):
         first_candle = ohlcv[0]
         datetime = exchange.iso8601(first_candle[0])
