@@ -129,6 +129,8 @@ async def sending_telegram(
     quotaAsset = data["quotaAsset"]
 
     tlgrm_id = config.main_dotenv("telegram-binance")
+    log.error(tlgrm_id)
+
     TOKEN = tlgrm_id["bot_token"]
     chat_id = tlgrm_id["bot_chatID"]
 
