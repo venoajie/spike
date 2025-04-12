@@ -27,9 +27,6 @@ async def main():
     file_toml = "config_strategies.toml"
     
     try:
-
-        private_data: object = api_requests.SendApiRequest(sub_account_id)
-
         pool = aioredis.ConnectionPool.from_url(
             "redis://localhost", 
             port=6379, 
@@ -54,7 +51,6 @@ async def main():
         await asyncio.gather(
          
             relaying_result.relaying_result(
-            private_data,
             client_redis,
             config_app,
             redis_channels,

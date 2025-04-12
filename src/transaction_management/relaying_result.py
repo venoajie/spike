@@ -17,7 +17,6 @@ from utilities import string_modification as str_mod, system_tools
 
 
 async def relaying_result(
-    private_data,
     client_redis: object,
     config_app: list,
     redis_channels: list,
