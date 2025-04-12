@@ -154,7 +154,7 @@ async def sending_telegram(
     
     if "MINUTE" in period:
         
-        await fetch_ohlcv(exchange, symbol, timeframe, limit)
+        movement = await fetch_ohlcv(exchange, symbol, timeframe, limit)
         
         message.update(
             {
@@ -167,7 +167,8 @@ async def sending_telegram(
         )
         
         await bot.send_message(text=message, chat_id=chat_id)
-    
+        
+        await bot.send_message(text=movement, chat_id=chat_id)    
     
 async def fetch_ohlcv(exchange, symbol, timeframe, limit):
     since = None
@@ -181,7 +182,13 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
         datetime = exchange.iso8601(first_candle[0])
         open = (first_candle[1])
         close = (first_candle[3])
-        print(datetime, exchange.id, symbol, first_candle[1:])
-        log.warning(ohlcv)
+        
+        delta = open - close
+        delta_pct = delta/open
+
         log.debug(first_candle)
-        log.warning(f"open: {open}, close: {close}")
+        log.warning(f"open: {open}, close: {close} delta: {delta}, delta_pct: {delta_pct}")
+        log.info("ohlcv {ohlcv}")
+        wording = (f"at {datetime} coin {symbol} has changed {delta_pct}% in the last {timeframe}")
+        log.error (wording)
+        return wording  
