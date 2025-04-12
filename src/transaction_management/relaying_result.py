@@ -52,7 +52,9 @@ async def relaying_result(
 
                 if abnormal_trading_notices_channel in message_channel:
 
-                    log.error(data)
+                    await sending_telegram(
+    data,
+)
 
 
             except Exception as error:
@@ -88,4 +90,5 @@ async def sending_telegram(
     data: list,
 ) -> None:
     
-    pass
+
+    log.error(data)
