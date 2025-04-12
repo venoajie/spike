@@ -8,7 +8,7 @@ from loguru import logger as log
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-from db_management import redis_client, sqlite_management as db_mgt
+from db_management import redis_client
 from messaging import telegram_bot as tlgrm
 from utilities import caching, pickling, string_modification as str_mod, system_tools
 
