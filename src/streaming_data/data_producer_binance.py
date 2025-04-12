@@ -92,8 +92,7 @@ class StreamingDataBinance:
                         
                         if message:
                             data = message.get("data", None)
-                            log.debug(f"message: {data}")
-
+                            
                             # queing message to dispatcher
                             await queue_general.put(message)
 
