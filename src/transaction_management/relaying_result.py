@@ -151,10 +151,12 @@ async def sending_telegram(
     exchange = ccxt.binance()
     timeframe = '5m'
     limit = 1
-    await fetch_ohlcv(exchange, symbol, timeframe, limit)
-    
     
     if "MINUTE" in period:
+        
+        await fetch_ohlcv(exchange, symbol, timeframe, limit)
+        await fetch_ohlcv(exchange, symbol, timeframe, 5)
+        
         message.update(
             {
                 "type": noticeType,
@@ -177,3 +179,4 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
         datetime = exchange.iso8601(first_candle[0])
         print(datetime, exchange.id, symbol, first_candle[1:])
         log.warning(ohlcv)
+        log.debug(first_candle)
