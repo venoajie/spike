@@ -128,12 +128,17 @@ async def sending_telegram(
     baseAsset = data["baseAsset"]
     quotaAsset = data["quotaAsset"]
 
-    TOKEN = config.main_dotenv("telegram-binance")["bot_token"]
-    chat_id = config.main_dotenv("telegram-bot_chatID")["bot_token"]
-    # Channel ID Sample: -1001829542722
+    tlgrm_id = config.main_dotenv("telegram-binance")
+    TOKEN = tlgrm_id["bot_token"]
+    chat_id = tlgrm_id["bot_chatID"]
+
     bot = telegram.Bot(token=TOKEN)
-    
+
+    log.error(f"{TOKEN} - {chat_id}")
+
     log.error(data)
+    
+    data
 
     await bot.send_message(text=data, chat_id=chat_id)
     
