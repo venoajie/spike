@@ -9,8 +9,6 @@ import telegram
 from loguru import logger as log
 
 # user defined formula
-
-# user defined formula
 from configuration import config
 
 
@@ -64,9 +62,6 @@ async def relaying_result(
 
             except Exception as error:
                 
-                log.error(error)
-                log.info(params)
-
                 await tlgrm.telegram_bot_sendtext(
                     f"relaying_result - {error}",
                     "general_error",
@@ -84,7 +79,7 @@ async def relaying_result(
         log.error(error)
         
         await tlgrm.telegram_bot_sendtext(
-            f"cancelling active orders - {error}",
+            f"relaying_result - {error}",
             "general_error",
         )
 
