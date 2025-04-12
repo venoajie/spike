@@ -132,7 +132,7 @@ async def sending_telegram(
     log.error(tlgrm_id)
 
     TOKEN = tlgrm_id["bot_token"]
-    chat_id = tlgrm_id["bot_chatID"]
+    chat_id = tlgrm_id["bot_chatid"]
 
     bot = telegram.Bot(token=TOKEN)
 
