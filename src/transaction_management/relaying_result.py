@@ -68,7 +68,7 @@ async def relaying_result(
                 log.info(params)
 
                 await tlgrm.telegram_bot_sendtext(
-                    f"cancelling active orders - {error}",
+                    f"relaying_result - {error}",
                     "general_error",
                 )
 
@@ -119,11 +119,11 @@ async def sending_telegram(
     
     """
 
+    tlgrm_id = config.main_dotenv("telegram-binance")
     TOKEN = tlgrm_id["bot_token"]
     chat_id = tlgrm_id["bot_chatid"]
 
     bot = telegram.Bot(token=TOKEN)
-    
     
     message = {}
     noticeType = data["noticeType"]
@@ -134,9 +134,6 @@ async def sending_telegram(
     sendTimestamp = data["sendTimestamp"]
     baseAsset = data["baseAsset"]
     quotaAsset = data["quotaAsset"]
-
-    tlgrm_id = config.main_dotenv("telegram-binance")
-
     message.update(
         {
             "noticeType": noticeType,
