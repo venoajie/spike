@@ -61,7 +61,6 @@ async def main():
             distr_binance.caching_distributing_data(
                 client_redis,
                 redis_channels,
-                redis_keys,
                 queue,
                 )
             ) 
