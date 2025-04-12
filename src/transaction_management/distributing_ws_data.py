@@ -4,7 +4,6 @@
 import asyncio
 
 import uvloop
-from loguru import logger as log
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
@@ -27,7 +26,7 @@ async def caching_distributing_data(
         # preparing redis connection
         pubsub: object = client_redis.pubsub()
         
-        abnormal_trading_notices: str = redis_channels["abnormal_trading_notices"]
+        abnormal_trading_notices_channel: str = redis_channels["abnormal_trading_notices"]
 
         result: dict = str_mod.message_template()
 
@@ -40,11 +39,7 @@ async def caching_distributing_data(
                 try:
 
                     message_channel: str = message_params.get("stream")
-                    
-                    log.info(message_params)
-                    log.warning(message_channel)
-                        
-
+                   
                     if message_channel:
 
                         data: dict = message_params["data"]
@@ -62,7 +57,7 @@ async def caching_distributing_data(
 
                             await abnormal_trading_notices_in_message_channel(
                                 pipe,
-                                abnormal_trading_notices,
+                                abnormal_trading_notices_channel,
                                 pub_message,
                                 result,
                             )
@@ -70,9 +65,7 @@ async def caching_distributing_data(
                         await pipe.execute()
 
                 except Exception as error:
-                    log.info(
-                        f"error in message {message_params}"
-                    )
+                    
                     system_tools.parse_error_message(error)
 
     except Exception as error:
@@ -85,22 +78,18 @@ async def caching_distributing_data(
         )
 
 
-
-
 async def abnormal_trading_notices_in_message_channel(
     pipe: object,
-    abnormal_trading_notices: str,
+    abnormal_trading_notices_channel: str,
     pub_message: list,
     result: dict,
 ) -> None:
 
-    result["params"].update({"channel": abnormal_trading_notices})
+    result["params"].update({"channel": abnormal_trading_notices_channel})
     result["params"].update(pub_message)
-
-    log.debug(result)
 
     await redis_client.publishing_result(
         pipe,
-        abnormal_trading_notices,
+        abnormal_trading_notices_channel,
         result,
     )
