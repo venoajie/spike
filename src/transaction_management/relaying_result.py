@@ -118,7 +118,14 @@ async def sending_telegram(
 
     
     """
+
+    TOKEN = tlgrm_id["bot_token"]
+    chat_id = tlgrm_id["bot_chatid"]
+
+    bot = telegram.Bot(token=TOKEN)
     
+    
+    message = {}
     noticeType = data["noticeType"]
     symbol = data["symbol"]
     eventType = data["eventType"]
@@ -129,18 +136,16 @@ async def sending_telegram(
     quotaAsset = data["quotaAsset"]
 
     tlgrm_id = config.main_dotenv("telegram-binance")
-    log.error(tlgrm_id)
 
-    TOKEN = tlgrm_id["bot_token"]
-    chat_id = tlgrm_id["bot_chatid"]
-
-    bot = telegram.Bot(token=TOKEN)
-
-    log.error(f"{TOKEN} - {chat_id}")
-
-    log.error(data)
+    message.update(
+        {
+            "noticeType": noticeType,
+            "symbol": symbol,
+            "eventType": eventType,
+            "priceChange": priceChange,
+            "period": period,
+        }
+    )
     
-    data
-
-    await bot.send_message(text=data, chat_id=chat_id)
+    await bot.send_message(text=message, chat_id=chat_id)
     
