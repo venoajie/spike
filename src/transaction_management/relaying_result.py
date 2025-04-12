@@ -166,6 +166,8 @@ async def sending_telegram(
             }
         )
         
+        log.info(message)
+        
         await bot.send_message(text=message, chat_id=chat_id)
         
         await bot.send_message(text=movement, chat_id=chat_id)    
@@ -174,7 +176,7 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
     since = None
     
     ohlcv = await exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-    
+    ticker = await exchange.fetch_ticker(symbol)
     await exchange.close()
     
     if len(ohlcv):
@@ -185,10 +187,13 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
         
         delta = open - close
         delta_pct = delta/open
+        
+        
 
         log.debug(first_candle)
         log.warning(f"open: {open}, close: {close} delta: {delta}, delta_pct: {delta_pct}")
-        log.info("ohlcv {ohlcv}")
+
         wording = (f"at {datetime} coin {symbol} has changed {delta_pct}% in the last {timeframe}")
         log.error (wording)
+        log.error (f"ticker {ticker}")
         return wording  
