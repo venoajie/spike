@@ -27,8 +27,6 @@ async def caching_distributing_data(
         # preparing redis connection
         pubsub: object = client_redis.pubsub()
 
-        abnormal_trading_notices: str = redis_channels["abnormal_trading_notices"]
-
         result: dict = str_mod.message_template()
 
         while True:
