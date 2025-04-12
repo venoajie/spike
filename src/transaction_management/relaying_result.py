@@ -4,6 +4,22 @@
 # built ins
 import asyncio
 import telegram
+import os
+import sys
+from asyncio import run, gather
+
+# -----------------------------------------------------------------------------
+
+this_folder = os.path.dirname(os.path.abspath(__file__))
+root_folder = os.path.dirname(os.path.dirname(this_folder))
+sys.path.append(root_folder + '/python')
+sys.path.append(this_folder)
+
+# -----------------------------------------------------------------------------
+
+import ccxt.async_support as ccxt  # noqa: E402
+
+# -----------------------------------------------------------------------------
 
 # installed
 from loguru import logger as log
@@ -100,7 +116,9 @@ async def sending_telegram(
         DROP_BACK,
         UP_BREAKTHROUGH,
         UP_2,
-        UP_1
+        UP_1,
+        DOWN_1,
+        DOWN_2
         ]
 
     period = [
@@ -130,6 +148,12 @@ async def sending_telegram(
     baseAsset = data["baseAsset"]
     quotaAsset = data["quotaAsset"]
     
+    exchange = ccxt.binance()
+    timeframe = '5m'
+    limit = 1
+    fetch_ohlcv(exchange, symbol, timeframe, limit)
+    
+    
     if "MINUTE" in period:
         message.update(
             {
@@ -143,3 +167,15 @@ async def sending_telegram(
         
         await bot.send_message(text=message, chat_id=chat_id)
     
+    
+async def fetch_ohlcv(exchange, symbol, timeframe, limit):
+    since = None
+    while True:
+        try:
+            ohlcv = await exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+            if len(ohlcv):
+                first_candle = ohlcv[0]
+                datetime = exchange.iso8601(first_candle[0])
+                print(datetime, exchange.id, symbol, first_candle[1:])
+        except Exception as e:
+            print(type(e).__name__, str(e))
