@@ -150,12 +150,11 @@ async def sending_telegram(
     
     exchange = ccxt.binance()
     timeframe = '5m'
-    limit = 1
+    limit = 9
     
     if "MINUTE" in period:
         
         await fetch_ohlcv(exchange, symbol, timeframe, limit)
-        await fetch_ohlcv(exchange, symbol, timeframe, 5)
         
         message.update(
             {
@@ -180,6 +179,9 @@ async def fetch_ohlcv(exchange, symbol, timeframe, limit):
     if len(ohlcv):
         first_candle = ohlcv[0]
         datetime = exchange.iso8601(first_candle[0])
+        open = (first_candle[1])
+        close = (first_candle[3])
         print(datetime, exchange.id, symbol, first_candle[1:])
         log.warning(ohlcv)
         log.debug(first_candle)
+        log.warning(f"open: {open}, close: {close}")
