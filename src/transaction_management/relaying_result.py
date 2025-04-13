@@ -94,7 +94,7 @@ async def relaying_result(
                             
                         if "VOLUME" in noticeType:
 
-                            if "HIGH" in period:
+                            if "HIGH" in eventType:
                                     
                                 main = (f"{symbol} experienced HIGHER volume than average\n")
                                 extra_info = (f"TF: {timeframe}, price change: {priceChange}\n")
