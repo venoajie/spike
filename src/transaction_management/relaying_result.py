@@ -32,7 +32,7 @@ from messaging import (
     get_published_messages,
     telegram_bot as tlgrm,
 )
-from utilities import string_modification as str_mod, system_tools
+from utilities import string_modification as str_mod, system_tools,time_modification as time_mod
 
 async def relaying_result(
     client_redis: object,
@@ -70,7 +70,16 @@ async def relaying_result(
         result_summary.update({"delta_price_pct": None})
         
         result = []
-        result.append(result_summary)
+        result.append(result_summary)        
+
+        ONE_SECOND = 1000
+        
+        one_minute = ONE_SECOND * 60
+        
+        one_hour = (one_minute * 60)
+        
+        send_tlgrm = False
+
         while True:
 
             try:
@@ -115,7 +124,7 @@ async def relaying_result(
                                     )    
                             
                         else:
-                                
+                            
                                 is_fluctuated = await compute_price_changes_result(
                                     exchange,
                                     symbol, 
@@ -125,21 +134,47 @@ async def relaying_result(
                                 
                                 if is_fluctuated["wording"]:
                                     
+                                    log.debug (f"BEFORE {result}")
+                                    
                                     log.warning (f"{symbol} {is_fluctuated}")
                                     
-                                    if result:
-                                        result.append
-                                    else:
-                                        result_summary.update({"symbol": is_fluctuated["symbol"]})
-                                        result_summary.update({"delta_price_pct": is_fluctuated["delta_price_pct"]})
-                                        result_summary.update({"timestamp": })
-                                        result.append(result_summary)
-                                    
-                                    await bot.send_message(
-                                        text=is_fluctuated["wording"],
-                                        chat_id=chat_id,
-                                        )    
+                                    current_timestamp = time_mod.get_now_unix_time()
 
+                                    result_summary.update({"timestamp":current_timestamp})
+                                    result_summary.update({"symbol":is_fluctuated["symbol"]})
+                                        
+                                    if result:
+                                        symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
+                                        
+                                        log.error (f"symbol_is_exist {symbol_is_exist}")
+                                        
+                                        timestamp_expired = is_timestamp_expired(timestamp,one_hour)
+                                        
+                                        log.debug (f"timestamp_expired {timestamp_expired}")
+
+                                        
+                                        
+                                        if timestamp_expired:
+                                            result.remove(symbol_is_exist[0])
+                                            result.append(result_summary)
+                                            
+                                            send_tlgrm = True
+                                        
+                                    else:
+                                        result.append(result_summary)
+                                        
+                                        send_tlgrm = True
+                            
+                            log.debug (f"AFTER {result}")
+                                    
+                            if send_tlgrm:
+                                
+                                await bot.send_message(
+                                    text=is_fluctuated["wording"],
+                                    chat_id=chat_id,
+                                    )  
+                                
+                                send_tlgrm = False  
 
             except Exception as error:
                 
@@ -291,6 +326,19 @@ async def get_ohlcv(
         limit,
         )  
 
+def is_timestamp_expired(
+    timestamp: int, 
+    threshold: int, 
+    ) -> dict:
+    
+    """
+    check if the timestamp is expired   
+    """
+    return (current_timestamp - threshold) > 0
+
+
+
+    
 
 async def get_ticker(
     exchange: str, 
