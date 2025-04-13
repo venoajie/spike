@@ -63,7 +63,14 @@ async def relaying_result(
         bot = telegram.Bot(token=TOKEN)
 
         exchange = ccxt.binance()
-
+        
+        result_summary = {}
+        result_summary.update({"symbol": None})
+        result_summary.update({"timestamp": None})
+        result_summary.update({"delta_price_pct": None})
+        
+        result = []
+        result.append(result_summary)
         while True:
 
             try:
@@ -109,14 +116,27 @@ async def relaying_result(
                             
                         else:
                                 
-                                is_fluctuated = await compute_price_changes_result(exchange, symbol, timeframe, limit)
+                                is_fluctuated = await compute_price_changes_result(
+                                    exchange,
+                                    symbol, 
+                                    timeframe,
+                                    limit,
+                                    )
                                 
-                                if is_fluctuated:
+                                if is_fluctuated["wording"]:
                                     
                                     log.warning (f"{symbol} {is_fluctuated}")
                                     
+                                    if result:
+                                        result.append
+                                    else:
+                                        result_summary.update({"symbol": is_fluctuated["symbol"]})
+                                        result_summary.update({"delta_price_pct": is_fluctuated["delta_price_pct"]})
+                                        result_summary.update({"timestamp": })
+                                        result.append(result_summary)
+                                    
                                     await bot.send_message(
-                                        text=is_fluctuated,
+                                        text=is_fluctuated["wording"],
                                         chat_id=chat_id,
                                         )    
 
@@ -250,7 +270,10 @@ async def compute_price_changes_result(
     
     await exchange.close()
     
-    return wording  
+    return dict(wording=wording,
+                symbol=symbol,
+                delta_price_pct=delta_price_pct,
+            )  
 
 
 async def get_ohlcv(
