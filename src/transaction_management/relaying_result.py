@@ -196,20 +196,20 @@ async def compute_result(
         open = (last_candle[1])
         close = (last_candle[3])
         
-        delta = last - open  
+        delta = close - open  
         delta_pct = abs(round((delta/open)*100,2))
         
         if delta != 0:
                 
             if delta > 0:
-                move = "up"   
+                move = "higher"   
             if delta < 0:
-                move = "down"   
+                move = "lower"   
             
             log.debug(last_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
-            wording = (f"{symbol} has {move} {delta_pct}% in the last {timeframe} \n \n{datetime}")
+            wording = (f"{symbol} closing is {move} {delta_pct}% than its opening in the last {timeframe} \n last closing: {close} current price: {last}\n{datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
     
