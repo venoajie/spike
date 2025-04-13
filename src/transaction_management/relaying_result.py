@@ -209,7 +209,7 @@ async def compute_result(
             log.debug(last_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
-            wording = (f"{symbol} has {move} {delta_pct}% in the last {timeframe} \n{datetime}")
+            wording = (f"{symbol} has {move} {delta_pct}% in the last {timeframe} \n \n{datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
     
