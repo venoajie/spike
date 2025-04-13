@@ -168,7 +168,7 @@ async def sending_telegram(data: list) -> None:
         
         if movement:
             
-            await bot.send_message(text=message, chat_id=chat_id)
+            log.error (movement)
             
             await bot.send_message(text=movement, chat_id=chat_id)    
     
@@ -186,9 +186,7 @@ async def compute_result(
     wording = ""
     
     ohlcv = await get_ohlcv(exchange,symbol, timeframe, limit)
-    
-    log.warning(f"ohlcv: {ohlcv}")
-        
+            
     ticker = await get_ticker(exchange,symbol)
     
     if len(ohlcv):
@@ -198,24 +196,37 @@ async def compute_result(
         open = (last_candle[1])
         close = (last_candle[3])
         
-        delta = close - open  
-        delta_pct = abs(round((delta/open)*100,2))
+        delta_close = close - open  
+        delta_close_pct = abs(round((delta_close/open)*100,2))
+
+        delta_current = last - open  
+        delta_current_pct = abs(round((delta_current/open)*100,2))
         
-        if delta != 0:
+        THRESHOLD = 3/100
+        
+        if delta_close_pct > THRESHOLD:
                 
-            if delta > 0:
+            if delta_close > 0:
                 move = "higher"   
-            if delta < 0:
+            if delta_close < 0:
                 move = "lower"   
             
-            log.debug(last_candle)
-            log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
-
-            main = (f"{symbol} closing is {delta_pct}%  {move} than its opening \n")
+            main = (f"{symbol} closing is {delta_close_pct}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
-            log.error (wording)
-            log.error (f"ticker {ticker}")
+        
+        
+        if delta_current_pct > THRESHOLD:
+                
+            if delta_current > 0:
+                move = "higher"   
+            if delta_current < 0:
+                move = "lower"   
+            
+            main = (f"{symbol} current price is {delta_current_pct}%  {move} than its opening \n")
+            extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
+            wording = (f"{main} {extra_info} {datetime}")
+        
     
     await exchange.close()
     
