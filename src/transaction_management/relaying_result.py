@@ -166,9 +166,11 @@ async def sending_telegram(data: list) -> None:
         
         log.info(message)
         
-        await bot.send_message(text=message, chat_id=chat_id)
-        
-        await bot.send_message(text=movement, chat_id=chat_id)    
+        if movement:
+            
+            await bot.send_message(text=message, chat_id=chat_id)
+            
+            await bot.send_message(text=movement, chat_id=chat_id)    
     
 async def compute_result(
     exchange: str, 
@@ -209,7 +211,9 @@ async def compute_result(
             log.debug(last_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
-            wording = (f"{symbol} closing is {move} {delta_pct}% than its opening in the last {timeframe} \n last closing: {close} current price: {last}\n{datetime}")
+            main = (f"{symbol} closing is {move} {delta_pct}% than its opening in the last {timeframe} \n")
+            extra_info = (f"last candle open: {open} close: {close} current: {last}\n")
+            wording = (f"{main} {extra_info} {datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
     
