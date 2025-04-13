@@ -154,8 +154,6 @@ async def sending_telegram(data: list) -> None:
         
         movement = await compute_result(exchange, symbol, timeframe, limit)
         
-        log.warning(f"movement: {movement}")
-        
         message.update(
             {
                 "type": noticeType,
@@ -187,6 +185,8 @@ async def compute_result(
     
     ohlcv = await get_ohlcv(exchange,symbol, timeframe, limit)
     
+    log.warning(f"ohlcv: {ohlcv}")
+        
     ticker = await get_ticker(exchange,symbol)
     
     if len(ohlcv):
