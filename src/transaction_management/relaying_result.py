@@ -210,8 +210,10 @@ async def compute_result(
                 move = "HIGHER"   
             if delta_close < 0:
                 move = "LOWER"   
+
+            log.debug(f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} {delta_close_pct > THRESHOLD} ")
             
-            main = (f"{symbol} closing is {delta_close_pct}%  {move} than its opening \n")
+            main = (f"{symbol} closing is {delta_close_pct*100}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
@@ -225,7 +227,7 @@ async def compute_result(
             if delta_current < 0:
                 move = "LOWER"   
             
-            main = (f"{symbol} current price is {delta_current_pct}%  {move} than its opening \n")
+            main = (f"{symbol} current price is {delta_current_pct*100}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
