@@ -217,6 +217,8 @@ async def compute_result(
         
         
         if delta_current_pct > THRESHOLD:
+            
+            log.debug(f"delta_current_pct: {delta_current_pct} THRESHOLD {THRESHOLD} {delta_current_pct > THRESHOLD} ")
                 
             if delta_current > 0:
                 move = "HIGHER"   
