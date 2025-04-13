@@ -183,7 +183,7 @@ async def compute_result(
     
     wording = ""
     
-    ohlcv = await get_ohlcv(exchange,symbol, timeframe, since, limit)
+    ohlcv = await get_ohlcv(exchange,symbol, timeframe, limit)
     
     ticker = await get_ticker(exchange,symbol)
     
