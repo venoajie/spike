@@ -165,7 +165,7 @@ async def sending_telegram(data: list) -> None:
         )
         
         log.info(message)
-        log.warning (movement)
+        log.warning (f"{symbol} {movement}")
         
         if movement:
             
@@ -217,7 +217,7 @@ async def compute_result(
             if delta_close < 0:
                 move = "LOWER"   
 
-            log.debug(f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} {delta_close_pct > THRESHOLD} ")
+            log.debug(f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} {delta_close_pct >= THRESHOLD} ")
             
             main = (f"{symbol} closing is {delta_close_pct*100}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
@@ -226,7 +226,7 @@ async def compute_result(
         
         if delta_current_pct >= THRESHOLD:
             
-            log.debug(f"delta_current_pct: {delta_current_pct} THRESHOLD {THRESHOLD} {delta_current_pct > THRESHOLD} ")
+            log.debug(f"delta_current_pct: {delta_current_pct} THRESHOLD {THRESHOLD} {delta_current_pct >= THRESHOLD} ")
                 
             if delta_current > 0:
                 move = "HIGHER"   
