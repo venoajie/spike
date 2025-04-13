@@ -111,10 +111,10 @@ async def relaying_result(
                                 
                                 if is_fluctuated:
                                     
-                                    log.warning (f"{symbol} {movement}")
+                                    log.warning (f"{symbol} {is_fluctuated}")
                                     
                                     await bot.send_message(
-                                        text=movement,
+                                        text=is_fluctuated,
                                         chat_id=chat_id,
                                         )    
 
