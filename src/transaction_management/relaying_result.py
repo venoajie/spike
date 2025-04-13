@@ -212,7 +212,7 @@ async def compute_result(
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
             main = (f"{symbol} closing is {delta_pct}%  {move} than its opening \n")
-            extra_info = (f"last candle timeframe: {timeframe} open: {open} close: {close} current: {last}\n")
+            extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
