@@ -180,13 +180,12 @@ async def compute_result(
     """ 
     
     """
-        
-    since = None
     
     wording = ""
     
-    ohlcv = await exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-    ticker = await get_ticker(symbol)
+    ohlcv = await get_ohlcv(exchange,symbol, timeframe, since, limit)
+    
+    ticker = await get_ticker(exchange,symbol)
     
     if len(ohlcv):
         first_candle = ohlcv[0]
@@ -212,7 +211,26 @@ async def compute_result(
     return wording  
 
 
-async def get_ticker(symbol: str) -> dict:
+async def get_ohlcv(
+    exchange: str, 
+    symbol: str, 
+    timeframe: str, 
+    limit: int,
+    since: int = None,
+    ) -> dict:
+
+    return await exchange.fetch_ohlcv(
+        symbol, 
+        timeframe, 
+        since,
+        limit,
+        )  
+
+
+async def get_ticker(
+    exchange: str, 
+    symbol: str, 
+    ) -> dict:
         
     """ 
     example: {
