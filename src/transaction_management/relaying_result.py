@@ -190,11 +190,11 @@ async def compute_result(
     ticker = await get_ticker(exchange,symbol)
     
     if len(ohlcv):
-        first_candle = ohlcv[0]
+        last_candle = ohlcv[limit-1]
         datetime = ticker["datetime"]
         last = ticker["last"]
-        open = (first_candle[1])
-        close = (first_candle[3])
+        open = (last_candle[1])
+        close = (last_candle[3])
         
         delta = last - open  
         delta_pct = abs(round((delta/open)*100,2))
@@ -206,7 +206,7 @@ async def compute_result(
             if delta < 0:
                 move = "down"   
             
-            log.debug(first_candle)
+            log.debug(last_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
             wording = (f"{symbol} has {move} {delta_pct}% in the last {timeframe} \n{datetime}")
