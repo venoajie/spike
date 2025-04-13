@@ -124,47 +124,45 @@ async def relaying_result(
                                     )    
                             
                         else:
+                        
+                            is_fluctuated = await compute_price_changes_result(
+                                exchange,
+                                symbol, 
+                                timeframe,
+                                limit,
+                                )
                             
-                                is_fluctuated = await compute_price_changes_result(
-                                    exchange,
-                                    symbol, 
-                                    timeframe,
-                                    limit,
-                                    )
+                            if is_fluctuated["wording"]:
                                 
-                                if is_fluctuated["wording"]:
-                                    
-                                    log.debug (f"BEFORE {result}")
-                                    
-                                    log.warning (f"{symbol} {is_fluctuated}")
-                                    
-                                    current_timestamp = time_mod.get_now_unix_time()
+                                log.debug (f"BEFORE {result}")
+                                
+                                log.warning (f"{symbol} {is_fluctuated}")
+                                
+                                current_timestamp = time_mod.get_now_unix_time()
 
-                                    result_summary.update({"timestamp":current_timestamp})
-                                    result_summary.update({"symbol":is_fluctuated["symbol"]})
-                                        
-                                    if result:
-                                        symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
-                                        
-                                        log.error (f"symbol_is_exist {symbol_is_exist}")
-                                        
-                                        timestamp_expired = is_timestamp_expired(timestamp,one_hour)
-                                        
-                                        log.debug (f"timestamp_expired {timestamp_expired}")
+                                result_summary.update({"timestamp":current_timestamp})
+                                result_summary.update({"symbol":is_fluctuated["symbol"]})
+                                    
+                                if result:
+                                    symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
+                                    
+                                    log.error (f"symbol_is_exist {symbol_is_exist}")
+                                    
+                                    timestamp_expired = is_timestamp_expired(timestamp,one_hour)
+                                    
+                                    log.debug (f"timestamp_expired {timestamp_expired}")
 
-                                        
-                                        
-                                        if timestamp_expired:
-                                            result.remove(symbol_is_exist[0])
-                                            result.append(result_summary)
-                                            
-                                            send_tlgrm = True
-                                        
-                                    else:
+                                    if timestamp_expired:
+                                        result.remove(symbol_is_exist[0])
                                         result.append(result_summary)
                                         
                                         send_tlgrm = True
-                            
+                                    
+                                else:
+                                    result.append(result_summary)
+                                    
+                                    send_tlgrm = True
+                        
                             log.debug (f"AFTER {result}")
                                     
                             if send_tlgrm:
