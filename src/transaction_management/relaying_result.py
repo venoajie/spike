@@ -107,7 +107,7 @@ async def relaying_result(
                             
                         else:
                                 
-                                is_fluctuated = await def compute_price_changes_result(exchange, symbol, timeframe, limit)
+                                is_fluctuated = await compute_price_changes_result(exchange, symbol, timeframe, limit)
                                 
                                 if is_fluctuated:
                                     
