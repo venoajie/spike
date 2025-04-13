@@ -167,6 +167,12 @@ async def relaying_result(
                                             
                                             send_tlgrm = True
                                     
+                                    else:                                        
+
+                                        result.append(result_summary)
+                                        
+                                        send_tlgrm = True   
+                                                                             
                                 else:
                                     result.append(result_summary)
                                     
