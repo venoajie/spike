@@ -105,7 +105,8 @@ async def sending_telegram(data: list) -> None:
     noticeType = [
         PRICE_BREAKTHROUGH, 
         PRICE_CHANGE, 
-        PRICE_FLUCTUATION
+        PRICE_FLUCTUATION,
+        VOLUME_PRICE
         ]
         
     eventType = [
@@ -116,7 +117,10 @@ async def sending_telegram(data: list) -> None:
         UP_2,
         UP_1,
         DOWN_1,
-        DOWN_2
+        DOWN_2,
+        HIGH_VOLUME_RISE_3, 
+        HIGH_VOLUME_RISE_2,
+        HIGH_VOLUME_RISE_1,
         ]
 
     period = [
@@ -202,7 +206,7 @@ async def compute_result(
         close = (last_candle[3])
         
         delta_close = close - open  
-        delta_close_pct = abs(round((delta_close/open),2))
+        delta_close_pct = abs(((delta_close/open)))
 
         delta_current = last - open  
         delta_current_pct = abs(round((delta_current/open),2))
@@ -220,7 +224,7 @@ async def compute_result(
 
             log.debug(f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} {delta_close_pct >= THRESHOLD} ")
             
-            main = (f"{symbol} closing is {delta_close_pct*100}%  {move} than its opening \n")
+            main = (f"{symbol} closing is {round(delta_close_pct*100,2)}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
@@ -234,7 +238,7 @@ async def compute_result(
             if delta_current < 0:
                 move = "LOWER"   
             
-            main = (f"{symbol} current price is {delta_current_pct*100}%  {move} than its opening \n")
+            main = (f"{symbol} current price is {round(delta_current_pct*100,2)}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
