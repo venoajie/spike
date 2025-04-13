@@ -99,11 +99,11 @@ async def relaying_result(
                     eventType = data["eventType"]
                     period = data["period"]
                     priceChange = data["priceChange"]
-                    
-                    log.info(data)
-                                
+                         
                     if "MINUTE" in period:
                     
+                        log.info(data)
+                           
                         tf_int = str_mod.extract_integers_from_text(period)
                         timeframe = (f"{tf_int}m")
                         limit = 9
@@ -134,7 +134,7 @@ async def relaying_result(
                             
                             if is_fluctuated["wording"]:
                                 
-                                log.debug (f"BEFORE {result}")
+                                log.debug (f"BEFORE result {result}")
                                 
                                 log.warning (f"{symbol} {is_fluctuated}")
                                 
@@ -167,18 +167,23 @@ async def relaying_result(
                                             
                                             send_tlgrm = True
                                     
-                                    else:                                        
+                                    else:       
+                                        
+                                        log.error (f"else result_summary {result_summary}")                                 
 
                                         result.append(result_summary)
                                         
                                         send_tlgrm = True   
                                                                              
                                 else:
+                                    
+                                    log.error (f"else result_summary {result_summary}")   
+                                    
                                     result.append(result_summary)
                                     
                                     send_tlgrm = True
                         
-                            log.debug (f"AFTER {result}")
+                            log.debug (f"AFTER result {result}")
                                     
                             if send_tlgrm:
                                 
