@@ -165,12 +165,16 @@ async def sending_telegram(data: list) -> None:
         )
         
         log.info(message)
+        log.warning (movement)
         
         if movement:
             
             log.error (movement)
             
-            await bot.send_message(text=movement, chat_id=chat_id)    
+            await bot.send_message(
+                text=movement,
+                chat_id=chat_id,
+                )    
     
 async def compute_result(
     exchange: str, 
@@ -203,6 +207,8 @@ async def compute_result(
         delta_current_pct = abs(round((delta_current/open),2))
         
         THRESHOLD = 3/100
+        
+        log.error (f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} delta_current_pct {delta_current_pct} ")
         
         if delta_close_pct > THRESHOLD:
                 
