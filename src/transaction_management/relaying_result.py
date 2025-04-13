@@ -157,7 +157,7 @@ async def relaying_result(
                                         
                                         log.warning (f"symbol_with_max_timestamp {symbol_with_max_timestamp}")
                                         
-                                        timestamp_expired = is_timestamp_expired(max_timestamp,one_hour)
+                                        timestamp_expired = is_timestamp_expired(current_timestamp,max_timestamp,one_hour)
                                         
                                         log.debug (f"timestamp_expired {timestamp_expired}")
 
@@ -333,14 +333,15 @@ async def get_ohlcv(
         )  
 
 def is_timestamp_expired(
-    timestamp: int, 
+    current_timestamp: int,
+    symbol_timestamp: int, 
     threshold: int, 
     ) -> dict:
     
     """
     check if the timestamp is expired   
     """
-    return (timestamp - threshold) > 0
+    return (current_timestamp - symbol_timestamp) >threshold
 
 
 
