@@ -305,7 +305,6 @@ async def compute_price_changes_result(
     
     return dict(wording=wording,
                 symbol=symbol,
-                delta_price_pct=delta_price_pct,
             )  
 
 
