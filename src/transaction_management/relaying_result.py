@@ -340,7 +340,7 @@ def is_timestamp_expired(
     """
     check if the timestamp is expired   
     """
-    return (current_timestamp - threshold) > 0
+    return (timestamp - threshold) > 0
 
 
 
