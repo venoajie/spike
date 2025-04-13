@@ -144,19 +144,28 @@ async def relaying_result(
                                 result_summary.update({"symbol":is_fluctuated["symbol"]})
                                     
                                 if result:
-                                    symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
                                     
+                                    symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
+
                                     log.error (f"symbol_is_exist {symbol_is_exist}")
                                     
-                                    timestamp_expired = is_timestamp_expired(timestamp,one_hour)
-                                    
-                                    log.debug (f"timestamp_expired {timestamp_expired}")
-
-                                    if timestamp_expired:
-                                        result.remove(symbol_is_exist[0])
-                                        result.append(result_summary)
+                                    if symbol_is_exist:
                                         
-                                        send_tlgrm = True
+                                        max_timestamp = max([o["timestamp"] for o in symbol_is_exist])
+                                        
+                                        symbol_with_max_timestamp = [o for o in symbol_is_exist if o["timestamp"] == max_timestamp]
+                                        
+                                        log.warning (f"symbol_with_max_timestamp {symbol_with_max_timestamp}")
+                                        
+                                        timestamp_expired = is_timestamp_expired(max_timestamp,one_hour)
+                                        
+                                        log.debug (f"timestamp_expired {timestamp_expired}")
+
+                                        if timestamp_expired:
+                                            result.remove(symbol_with_max_timestamp[0])
+                                            result.append(result_summary)
+                                            
+                                            send_tlgrm = True
                                     
                                 else:
                                     result.append(result_summary)
