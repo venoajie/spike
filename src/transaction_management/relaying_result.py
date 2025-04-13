@@ -34,7 +34,6 @@ from messaging import (
 )
 from utilities import string_modification as str_mod, system_tools
 
-
 async def relaying_result(
     client_redis: object,
     config_app: list,
@@ -57,6 +56,14 @@ async def relaying_result(
         # subscribe to channels
         [await pubsub.subscribe(o) for o in channels]
 
+        tlgrm_id = config.main_dotenv("telegram-binance")
+        TOKEN = tlgrm_id["bot_token"]
+        chat_id = tlgrm_id["bot_chatid"]
+
+        bot = telegram.Bot(token=TOKEN)
+
+        exchange = ccxt.binance()
+
         while True:
 
             try:
@@ -70,8 +77,47 @@ async def relaying_result(
                 message_channel = params["channel"]
 
                 if abnormal_trading_notices_channel in message_channel:
+                    
+                    noticeType = data["noticeType"]
+                    symbol = data["symbol"]
+                    eventType = data["eventType"]
+                    period = data["period"]
+                    priceChange = data["priceChange"]
+                    
+                    log.info(data)
+                                
+                    if "MINUTE" in period:
+                    
+                        tf_int = str_mod.extract_integers_from_text(period)
+                        timeframe = (f"{tf_int}m")
+                        limit = 9
+                            
+                        if "VOLUME" in noticeType:
 
-                    await sending_telegram(data)
+                            if "HIGH" in period:
+                                    
+                                main = (f"{symbol} experienced HIGHER volume than average\n")
+                                extra_info = (f"TF: {timeframe}, price change: {priceChange}\n")
+                                wording = (f"{main} {extra_info} {datetime}")
+                            
+                                await bot.send_message(
+                                    text=wording,
+                                    chat_id=chat_id,
+                                    )    
+                            
+                        else:
+                                
+                                is_fluctuated = await async def compute_price_changes_result(exchange, symbol, timeframe, limit)
+                                
+                                if is_fluctuated:
+                                    
+                                    log.warning (f"{symbol} {movement}")
+                                    
+                                    await bot.send_message(
+                                        text=movement,
+                                        chat_id=chat_id,
+                                        )    
+
 
             except Exception as error:
                 
@@ -89,14 +135,12 @@ async def relaying_result(
 
     except Exception as error:
         
-        log.error(error)
+        system_tools.parse_error_message(error)
         
         await tlgrm.telegram_bot_sendtext(
             f"relaying_result - {error}",
             "general_error",
         )
-
-        system_tools.parse_error_message(error)
 
 
 async def sending_telegram(data: list) -> None:
@@ -130,58 +174,23 @@ async def sending_telegram(data: list) -> None:
         MINUTE_5,
         HOUR_2
         ]
+        
+    example:
+        {
+            'type': 'VOLUME_PRICE', 
+            'symbol': 'LISTAUSDT', 
+            'event': 'HIGH_VOLUME_RISE_1', 
+            'price change': 0.10529986, 
+            'period': 'MINUTE_15'
+            }
 
     
     """
+    
+    pass
 
-    tlgrm_id = config.main_dotenv("telegram-binance")
-    TOKEN = tlgrm_id["bot_token"]
-    chat_id = tlgrm_id["bot_chatid"]
-
-    bot = telegram.Bot(token=TOKEN)
-    
-    message = {}
-    noticeType = data["noticeType"]
-    symbol = data["symbol"]
-    eventType = data["eventType"]
-    priceChange = data["priceChange"]
-    period = data["period"]
-    sendTimestamp = data["sendTimestamp"]
-    baseAsset = data["baseAsset"]
-    quotaAsset = data["quotaAsset"]
-    
-    exchange = ccxt.binance()
-    timeframe = '5m'
-    limit = 9
-    
-    if "MINUTE" in period:
         
-        message.update(
-            {
-                "type": noticeType,
-                "symbol": symbol,
-                "event": eventType,
-                "price change": priceChange,
-                "period": period,
-            }
-        )
-        
-        log.info(message)
-        
-        movement = await compute_result(exchange, symbol, timeframe, limit)
-        
-        log.warning (f"{symbol} {movement}")
-        
-        if movement:
-            
-            log.error (movement)
-            
-            await bot.send_message(
-                text=movement,
-                chat_id=chat_id,
-                )    
-    
-async def compute_result(
+async def compute_price_changes_result(
     exchange: str, 
     symbol: str, 
     timeframe: str, 
@@ -213,25 +222,19 @@ async def compute_result(
         
         THRESHOLD = 3/100
         
-        log.error (f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} delta_current_pct {delta_current_pct} ")
-        
         if delta_close_pct >= THRESHOLD:
                 
             if delta_close > 0:
                 move = "HIGHER"   
             if delta_close < 0:
                 move = "LOWER"   
-
-            log.debug(f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} {delta_close_pct >= THRESHOLD} ")
-            
+    
             main = (f"{symbol} closing is {round(delta_close_pct*100,2)}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
         
         if delta_current_pct >= THRESHOLD:
-            
-            log.debug(f"delta_current_pct: {delta_current_pct} THRESHOLD {THRESHOLD} {delta_current_pct >= THRESHOLD} ")
                 
             if delta_current > 0:
                 move = "HIGHER"   
