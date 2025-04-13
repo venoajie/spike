@@ -95,6 +95,8 @@ async def relaying_result(
                         if "VOLUME" in noticeType:
 
                             if "HIGH" in eventType:
+                                
+                                datetime = exchange.iso8601(exchange.milliseconds())
                                     
                                 main = (f"{symbol} experienced HIGHER volume than average\n")
                                 extra_info = (f"TF: {timeframe}, price change: {priceChange}\n")
