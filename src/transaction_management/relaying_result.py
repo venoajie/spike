@@ -210,7 +210,7 @@ async def compute_result(
         
         log.error (f"delta_close_pct: {delta_close_pct} THRESHOLD {THRESHOLD} delta_current_pct {delta_current_pct} ")
         
-        if delta_close_pct > THRESHOLD:
+        if delta_close_pct >= THRESHOLD:
                 
             if delta_close > 0:
                 move = "HIGHER"   
@@ -224,7 +224,7 @@ async def compute_result(
             wording = (f"{main} {extra_info} {datetime}")
         
         
-        if delta_current_pct > THRESHOLD:
+        if delta_current_pct >= THRESHOLD:
             
             log.debug(f"delta_current_pct: {delta_current_pct} THRESHOLD {THRESHOLD} {delta_current_pct > THRESHOLD} ")
                 
