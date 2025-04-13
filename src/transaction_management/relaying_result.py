@@ -154,6 +154,8 @@ async def sending_telegram(data: list) -> None:
         
         movement = await compute_result(exchange, symbol, timeframe, limit)
         
+        log.warning(f"movement: {movement}")
+        
         message.update(
             {
                 "type": noticeType,
@@ -207,7 +209,7 @@ async def compute_result(
             log.debug(first_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
-            wording = (f"at {datetime} coin {symbol} has {move} {delta_pct}% in the last {timeframe}")
+            wording = (f"{symbol} has {move} {delta_pct}% in the last {timeframe} \n{datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
     
