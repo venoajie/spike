@@ -197,7 +197,7 @@ async def compute_result(
         close = (last_candle[3])
         
         delta_close = close - open  
-        delta_close_pct = abs(round((delta_close/open)*100,2))
+        delta_close_pct = abs(round((delta_close/open),2))
 
         delta_current = last - open  
         delta_current_pct = abs(round((delta_current/open),2))
@@ -211,7 +211,7 @@ async def compute_result(
             if delta_close < 0:
                 move = "LOWER"   
             
-            main = (f"{symbol} closing is {delta_close_pct*100}%  {move} than its opening \n")
+            main = (f"{symbol} closing is {delta_close_pct}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Close: {close}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
@@ -225,7 +225,7 @@ async def compute_result(
             if delta_current < 0:
                 move = "LOWER"   
             
-            main = (f"{symbol} current price is {delta_current_pct*100}%  {move} than its opening \n")
+            main = (f"{symbol} current price is {delta_current_pct}%  {move} than its opening \n")
             extra_info = (f"TF: {timeframe}, Open: {open}, Current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
         
