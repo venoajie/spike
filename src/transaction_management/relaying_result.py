@@ -211,8 +211,8 @@ async def compute_result(
             log.debug(last_candle)
             log.warning(f"open: {open}, last: {last} delta: {delta}, delta_pct: {delta_pct}")
 
-            main = (f"{symbol} closing is {move} {delta_pct}% than its opening in the last {timeframe} \n")
-            extra_info = (f"last candle open: {open} close: {close} current: {last}\n")
+            main = (f"{symbol} closing is {delta_pct}%  {move} than its opening \n")
+            extra_info = (f"last candle timeframe: {timeframe} open: {open} close: {close} current: {last}\n")
             wording = (f"{main} {extra_info} {datetime}")
             log.error (wording)
             log.error (f"ticker {ticker}")
