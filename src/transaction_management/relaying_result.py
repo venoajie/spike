@@ -152,8 +152,6 @@ async def sending_telegram(data: list) -> None:
     
     if "MINUTE" in period:
         
-        movement = await compute_result(exchange, symbol, timeframe, limit)
-        
         message.update(
             {
                 "type": noticeType,
@@ -165,6 +163,9 @@ async def sending_telegram(data: list) -> None:
         )
         
         log.info(message)
+        
+        movement = await compute_result(exchange, symbol, timeframe, limit)
+        
         log.warning (f"{symbol} {movement}")
         
         if movement:
