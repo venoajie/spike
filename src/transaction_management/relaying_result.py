@@ -210,13 +210,20 @@ async def relaying_result(
                                 send_tlgrm = False
 
             except Exception as error:
+                
+                log.debug(error)
 
-                await tlgrm.telegram_bot_sendtext(
-                    f"relaying_result - {error}",
-                    "general_error",
-                )
+                if "binance does not have market symbol" in error:
+                    pass
 
-                system_tools.parse_error_message(error)
+                else:
+
+                    await tlgrm.telegram_bot_sendtext(
+                        f"relaying_result - {error}",
+                        "general_error",
+                    )
+
+                    system_tools.parse_error_message(error)
 
                 continue
 
@@ -224,13 +231,20 @@ async def relaying_result(
                 await asyncio.sleep(0.001)
 
     except Exception as error:
+        
+        log.warning(error)
+        
+        if "binance does not have market symbol" in error:
+            pass
 
-        system_tools.parse_error_message(error)
+        else:
 
-        await tlgrm.telegram_bot_sendtext(
-            f"relaying_result - {error}",
-            "general_error",
-        )
+            system_tools.parse_error_message(error)
+
+            await tlgrm.telegram_bot_sendtext(
+                f"relaying_result - {error}",
+                "general_error",
+            )
 
 
 async def sending_telegram(data: list) -> None:
