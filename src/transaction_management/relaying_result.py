@@ -390,7 +390,7 @@ def updating_cache(
     """
 
     result.append(result_summary.update({"timestamp":current_timestamp}))
-    result.append(update({"symbol":symbol}))
+    result.append(result_summary.update({"symbol":symbol}))
 
 
     
