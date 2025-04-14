@@ -387,14 +387,14 @@ def updating_cache(
     
     """
     """
-    
+    res = {}
     log.warning(result)
     log.info(result_summary)
     
     if symbol:
         
-        result_summary.update({"symbol":symbol})
-        result_summary.update({"timestamp":current_timestamp})
+        res.update({"symbol":symbol})
+        res.update({"timestamp":current_timestamp})
         log.debug (f"result_summary {result_summary}")   
         
         result += result + [result_summary]
