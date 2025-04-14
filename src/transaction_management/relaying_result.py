@@ -72,6 +72,8 @@ async def relaying_result(
         
         one_hour = (one_minute * 60)
         
+        fifteen_min = (15 * one_minute)
+        
         send_tlgrm = False
         
         while True:
@@ -140,7 +142,11 @@ async def relaying_result(
                                         
                                         symbol_with_max_timestamp = [o for o in symbol_is_exist if o["timestamp"] == max_timestamp]
                                         
-                                        timestamp_expired = is_timestamp_expired(current_timestamp,max_timestamp,one_hour)
+                                        timestamp_expired = is_timestamp_expired(
+                                            current_timestamp,
+                                            max_timestamp,
+                                            fifteen_min,
+                                            )
                         
                                         if timestamp_expired:
                                             result.remove(symbol_with_max_timestamp[0])
