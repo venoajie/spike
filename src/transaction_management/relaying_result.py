@@ -166,21 +166,25 @@ async def relaying_result(
                                         if timestamp_expired:
                                             result.remove(symbol_with_max_timestamp[0])
 
-                                            result_summary.update({"timestamp":current_timestamp})
-                                            result_summary.update({"symbol":is_fluctuated["symbol"]})
-                                
-                                            result.append(result_summary)
+                                            updating_cache(
+                                                result,
+                                                result_summary,
+                                                is_fluctuated["symbol"], 
+                                                current_timestamp,
+                                                )
                                             
                                             send_tlgrm = True
                                     
                                     else:       
                                         
-                                        log.error (f"else result_summary {result_summary}")                                 
-
-                                        result_summary.update({"timestamp":current_timestamp})
-                                        result_summary.update({"symbol":is_fluctuated["symbol"]})
-                                
-                                        result.append(result_summary)
+                                        log.error (f"else result_summary {result_summary}")   
+                                        
+                                        updating_cache(
+                                                result,
+                                                result_summary,
+                                                is_fluctuated["symbol"], 
+                                                current_timestamp,
+                                                )                              
                                         
                                         send_tlgrm = True   
                                                                              
@@ -188,10 +192,12 @@ async def relaying_result(
                                     
                                     log.error (f"else result_summary {result_summary}")   
                                 
-                                    result_summary.update({"timestamp":current_timestamp})
-                                    result_summary.update({"symbol":is_fluctuated["symbol"]})
-                                        
-                                    result.append(result_summary)
+                                    updating_cache(
+                                            result,
+                                            result_summary,
+                                            is_fluctuated["symbol"], 
+                                                current_timestamp,
+                                                )                
                                     
                                     send_tlgrm = True
                         
@@ -363,9 +369,27 @@ def is_timestamp_expired(
     
     """
     check if the timestamp is expired   
-    """
+    """ 
     return (current_timestamp - symbol_timestamp) >threshold
 
+
+def updating_cache(
+    result: list,
+    result_summary: dict,
+    symbol: str, 
+    current_timestamp: int,
+    ) -> dict:
+    
+    """
+    """
+
+    result_summary.update({"timestamp":current_timestamp})
+    result_summary.update({"symbol":symbol})
+        
+    result.append(result_summary)
+
+
+    return (current_timestamp - symbol_timestamp) >threshold
 
 
     
