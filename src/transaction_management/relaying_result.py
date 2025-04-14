@@ -145,6 +145,8 @@ async def relaying_result(
                                     
                                 if result:
                                     
+                                    log.debug (f"BEFORE result 2 {result}")
+                                    
                                     log.info (f" o for o in result {[o for o in result]}")
                                     log.debug (is_fluctuated["symbol"])
                                     
