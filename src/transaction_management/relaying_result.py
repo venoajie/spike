@@ -119,8 +119,6 @@ async def relaying_result(
                             
                         else:
                             
-                            log.debug (f"BEFORE result {result}")
-                        
                             is_fluctuated = await compute_price_changes_result(
                                 exchange,
                                 symbol, 
@@ -129,36 +127,21 @@ async def relaying_result(
                                 )
                             
                             if is_fluctuated["wording"]:
-                                
-                                log.debug (f"BEFORE result {result}")
-                                
-                                log.warning (f"{symbol} {is_fluctuated}")
-                                
+                                                                
                                 current_timestamp = time_mod.get_now_unix_time()
     
                                 if result:
                                     
-                                    log.debug (f"BEFORE result 2 {result}")
-                                    
-                                    log.info (f" o for o in result {[o for o in result]}")
-                                    log.debug (is_fluctuated["symbol"])
-                                    
                                     symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
-
-                                    log.error (f"symbol_is_exist {symbol_is_exist}")
-                                    
+            
                                     if symbol_is_exist:
                                         
                                         max_timestamp = max([o["timestamp"] for o in symbol_is_exist])
                                         
                                         symbol_with_max_timestamp = [o for o in symbol_is_exist if o["timestamp"] == max_timestamp]
                                         
-                                        log.warning (f"symbol_with_max_timestamp {symbol_with_max_timestamp}")
-                                        
                                         timestamp_expired = is_timestamp_expired(current_timestamp,max_timestamp,one_hour)
-                                        
-                                        log.debug (f"timestamp_expired {timestamp_expired}")
-
+                        
                                         if timestamp_expired:
                                             result.remove(symbol_with_max_timestamp[0])
 
@@ -178,9 +161,6 @@ async def relaying_result(
                                                 current_timestamp,
                                                 ) 
                                         
-                                        log.critical(result)
-                            
-                                        
                                         send_tlgrm = True   
                                                                              
                                 else:
@@ -193,8 +173,6 @@ async def relaying_result(
                                     
                                     send_tlgrm = True
                         
-                            log.debug (f"AFTER result {result}")
-                                    
                             if send_tlgrm:
                                 
                                 await bot.send_message(
@@ -374,17 +352,13 @@ def updating_cache(
     """
     """
     res = {}
-    log.warning(result)
     
     if symbol:
         
         res.update({"symbol":symbol})
         res.update({"timestamp":current_timestamp})
-        log.debug (f"res {res}")   
-        
-        #result += result + [res]
+
         result.append(res)
-        log.error (f"result {result}")   
         
 
     
