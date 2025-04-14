@@ -80,14 +80,10 @@ async def relaying_result(
         
         send_tlgrm = False
         
-        log.debug (f"BEFORE result {result}")
-
         while True:
 
             try:
-                
-                log.debug (f"BEFORE result {result}")
-
+        
                 message_byte = await pubsub.get_message()
 
                 params = await get_published_messages.get_redis_message(message_byte)
@@ -190,7 +186,10 @@ async def relaying_result(
                                                 result_summary,
                                                 is_fluctuated["symbol"], 
                                                 current_timestamp,
-                                                )                              
+                                                ) 
+                                        
+                                        log.critical(result)
+                            
                                         
                                         send_tlgrm = True   
                                                                              
@@ -388,9 +387,16 @@ def updating_cache(
     
     """
     """
+    
+    log.warning(result)
+    log.info(result_summary)
 
     result.append(result_summary.update({"timestamp":current_timestamp}))
+    log.error(result)
     result.append(result_summary.update({"symbol":symbol}))
+
+    log.error(result)
+    log.info(result_summary)
 
 
     
