@@ -383,13 +383,8 @@ def updating_cache(
     """
     """
 
-    result_summary.update({"timestamp":current_timestamp})
-    result_summary.update({"symbol":symbol})
-        
-    result.append(result_summary)
-
-
-    return (current_timestamp - symbol_timestamp) >threshold
+    result.append(result_summary.update({"timestamp":current_timestamp}))
+    result.append(update({"symbol":symbol}))
 
 
     
