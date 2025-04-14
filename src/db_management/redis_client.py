@@ -231,4 +231,3 @@ async def querying_data(
             f"redis qurying result - {error}",
             "general_error",
         )
-

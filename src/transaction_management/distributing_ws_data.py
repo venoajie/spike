@@ -18,15 +18,16 @@ async def caching_distributing_data(
     queue_general: object,
 ) -> None:
 
-    """
-    """
+    """ """
 
     try:
 
         # preparing redis connection
         pubsub: object = client_redis.pubsub()
-        
-        abnormal_trading_notices_channel: str = redis_channels["abnormal_trading_notices"]
+
+        abnormal_trading_notices_channel: str = redis_channels[
+            "abnormal_trading_notices"
+        ]
 
         result: dict = str_mod.message_template()
 
@@ -39,14 +40,14 @@ async def caching_distributing_data(
                 try:
 
                     message_channel: str = message_params.get("stream")
-                   
+
                     if message_channel:
 
                         data: dict = message_params["data"]
-                                            
+
                         pub_message = dict(
-                        data=data,
-                    )                        
+                            data=data,
+                        )
                         if "abnormaltradingnotices" in message_channel:
 
                             data: dict = message_params["data"]
@@ -65,7 +66,7 @@ async def caching_distributing_data(
                         await pipe.execute()
 
                 except Exception as error:
-                    
+
                     system_tools.parse_error_message(error)
 
     except Exception as error:
