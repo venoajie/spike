@@ -396,7 +396,7 @@ def updating_cache(
         result_summary.update({"symbol":symbol})
         result_summary.update({"timestamp":current_timestamp})
         
-        result = result+result_summary
+        result += result + result_summary
         
         log.error (f"result {result}")   
         
