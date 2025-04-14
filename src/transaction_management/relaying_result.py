@@ -391,11 +391,15 @@ def updating_cache(
     log.warning(result)
     log.info(result_summary)
 
-    result.append(result_summary.update({"timestamp":current_timestamp}))
-    log.error(result)
     result.append(result_summary.update({"symbol":symbol}))
-
     log.error(result)
+    
+    if symbol:
+
+        result.append(result_summary.update({"timestamp":current_timestamp}))
+        log.error(result)
+        
+    log.info(result_summary)
     log.info(result_summary)
 
 
