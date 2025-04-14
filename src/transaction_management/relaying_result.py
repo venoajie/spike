@@ -139,10 +139,7 @@ async def relaying_result(
                                 log.warning (f"{symbol} {is_fluctuated}")
                                 
                                 current_timestamp = time_mod.get_now_unix_time()
-
-                                result_summary.update({"timestamp":current_timestamp})
-                                result_summary.update({"symbol":is_fluctuated["symbol"]})
-                                    
+    
                                 if result:
                                     
                                     log.debug (f"BEFORE result 2 {result}")
@@ -168,6 +165,10 @@ async def relaying_result(
 
                                         if timestamp_expired:
                                             result.remove(symbol_with_max_timestamp[0])
+
+                                            result_summary.update({"timestamp":current_timestamp})
+                                            result_summary.update({"symbol":is_fluctuated["symbol"]})
+                                
                                             result.append(result_summary)
                                             
                                             send_tlgrm = True
@@ -176,6 +177,9 @@ async def relaying_result(
                                         
                                         log.error (f"else result_summary {result_summary}")                                 
 
+                                        result_summary.update({"timestamp":current_timestamp})
+                                        result_summary.update({"symbol":is_fluctuated["symbol"]})
+                                
                                         result.append(result_summary)
                                         
                                         send_tlgrm = True   
@@ -183,7 +187,10 @@ async def relaying_result(
                                 else:
                                     
                                     log.error (f"else result_summary {result_summary}")   
-                                    
+                                
+                                    result_summary.update({"timestamp":current_timestamp})
+                                    result_summary.update({"symbol":is_fluctuated["symbol"]})
+                                        
                                     result.append(result_summary)
                                     
                                     send_tlgrm = True
