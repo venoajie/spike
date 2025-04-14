@@ -397,7 +397,7 @@ def updating_cache(
         res.update({"timestamp":current_timestamp})
         log.debug (f"result_summary {result_summary}")   
         
-        result += result + [result_summary]
+        result += result + [res]
         
         log.error (f"result {result}")   
         
