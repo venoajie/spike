@@ -64,13 +64,7 @@ async def relaying_result(
 
         exchange = ccxt.binance()
         
-        result_summary = {}
-        result_summary.update({"symbol": None})
-        result_summary.update({"timestamp": None})
-        result_summary.update({"delta_price_pct": None})
-        
         result = []
-        result.append(result_summary)        
 
         ONE_SECOND = 1000
         
@@ -170,7 +164,6 @@ async def relaying_result(
 
                                             updating_cache(
                                                 result,
-                                                result_summary,
                                                 is_fluctuated["symbol"], 
                                                 current_timestamp,
                                                 )
@@ -178,12 +171,9 @@ async def relaying_result(
                                             send_tlgrm = True
                                     
                                     else:       
-                                        
-                                        log.error (f"else result_summary {result_summary}")   
-                                        
+                                                                                
                                         updating_cache(
                                                 result,
-                                                result_summary,
                                                 is_fluctuated["symbol"], 
                                                 current_timestamp,
                                                 ) 
@@ -194,12 +184,9 @@ async def relaying_result(
                                         send_tlgrm = True   
                                                                              
                                 else:
-                                    
-                                    log.error (f"else result_summary {result_summary}")   
-                                
+                                                                    
                                     updating_cache(
                                             result,
-                                            result_summary,
                                             is_fluctuated["symbol"], 
                                                 current_timestamp,
                                                 )                
@@ -380,7 +367,6 @@ def is_timestamp_expired(
 
 def updating_cache(
     result: list,
-    result_summary: dict,
     symbol: str, 
     current_timestamp: int,
     ) -> dict:
