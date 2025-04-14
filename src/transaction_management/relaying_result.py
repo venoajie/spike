@@ -79,10 +79,14 @@ async def relaying_result(
         one_hour = (one_minute * 60)
         
         send_tlgrm = False
+        
+        log.debug (f"BEFORE result {result}")
 
         while True:
 
             try:
+                
+                log.debug (f"BEFORE result {result}")
 
                 message_byte = await pubsub.get_message()
 
@@ -124,6 +128,8 @@ async def relaying_result(
                                     )    
                             
                         else:
+                            
+                            log.debug (f"BEFORE result {result}")
                         
                             is_fluctuated = await compute_price_changes_result(
                                 exchange,
