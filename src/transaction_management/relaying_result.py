@@ -145,6 +145,9 @@ async def relaying_result(
                                     
                                 if result:
                                     
+                                    log.info (f" o for o in result {[o for o in result]}")
+                                    log.debug (is_fluctuated["symbol"])
+                                    
                                     symbol_is_exist = [o for o in result if o["symbol"] == is_fluctuated["symbol"]]
 
                                     log.error (f"symbol_is_exist {symbol_is_exist}")
