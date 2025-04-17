@@ -21,9 +21,9 @@ from utilities import string_modification as str_mod, system_tools
 
 async def main():
     
-    from exchange_streamer import messaging 
+    from exchange_streamer.messaging import telegram_bot 
     
-    asyncio.run(messaging.telegram_bot.telegram_bot_sendtext (
+    asyncio.run(telegram_bot.telegram_bot_sendtext (
             "AAAAAAAAAAAAAAAAAAAAAAAAA",
             "general_error"
             ))
