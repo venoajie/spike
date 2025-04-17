@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from configparser import ConfigParser
-
-from utilities import system_tools
-
+from exchange_streamer.utilities import string_modification as str_mod, system_tools
 
 def catch_error(error, idle: int = None) -> list:
     """ """
