@@ -21,12 +21,10 @@ from utilities import string_modification as str_mod, system_tools
 
 async def main():
     
-    from exchange_streamer.messaging import telegram_bot 
+    from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
+    from exchange_streamer.transaction_management import distributing_ws_data as distr_binance
+    from exchange_streamer.utilities import string_modification as str_mod, system_tools
     
-    asyncio.run(telegram_bot.telegram_bot_sendtext (
-            "AAAAAAAAAAAAAAAAAAAAAAAAA",
-            "general_error"
-            ))
     
     # registering strategy config file    
     file_toml = "config_strategies.toml"
