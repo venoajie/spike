@@ -21,9 +21,9 @@ from utilities import string_modification as str_mod, system_tools
 
 async def main():
     
-    from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
-    from exchange_streamer.transaction_management import distributing_ws_data as distr_binance
-    from exchange_streamer.utilities import string_modification as str_mod, system_tools
+    from exchange-streamer.streaming_data.data_producer_binance import StreamingDataBinance
+    from exchange-streamer.transaction_management import distributing_ws_data as distr_binance
+    from exchange-streamer.utilities import string_modification as str_mod, system_tools
     
     
     # registering strategy config file    
