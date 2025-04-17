@@ -15,7 +15,8 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from messaging import telegram_bot as tlgrm
 
-from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
+#from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
+from exchange_streamer.streaming_data import data_producer_binance
 from exchange_streamer.transaction_management import distributing_ws_data as distr_binance
 from exchange_streamer.utilities import string_modification as str_mod, system_tools
 
@@ -49,7 +50,7 @@ async def main():
 
         queue = Queue(maxsize=1)
 
-        stream_binance = StreamingDataBinance(sub_account_id)
+        stream_binance = data_producer_binance.StreamingDataBinance(sub_account_id)
                 
         producer_task_binance = asyncio.create_task(
             stream_binance.ws_manager(
