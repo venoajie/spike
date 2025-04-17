@@ -1,6 +1,10 @@
 [project]
 name = "spike"
 version = "0.1.0"
+authors = [
+  { name="ven.ajie", email="venoajie@gmail.com" },
+]
+description = "A small example package"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -18,3 +22,7 @@ dependencies =  [
     "uvloop>=0.21.0",
     "websockets==15.0",
 ]
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
