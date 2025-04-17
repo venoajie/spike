@@ -23,7 +23,7 @@ async def main():
     
     from exchange_streamer import messaging 
     
-    asyncio.run(messaging.telegram_bot_sendtext (
+    asyncio.run(messaging.telegram_bot.telegram_bot_sendtext (
             "AAAAAAAAAAAAAAAAAAAAAAAAA",
             "general_error"
             ))
