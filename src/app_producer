@@ -21,7 +21,9 @@ from utilities import string_modification as str_mod, system_tools
 
 async def main():
     
-    from exchange_streamer import streaming_data
+    from exchange_streamer.utilities import string_modification as str_mod, system_tools
+
+    from exchange_streamer.streaming_data import 
     from exchange_streamer.transaction_management import distributing_ws_data as distr_binance
     from exchange_streamer.utilities import string_modification as str_mod, system_tools
     
