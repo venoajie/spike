@@ -13,9 +13,9 @@ import redis.asyncio as aioredis
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-from messaging.telegram_bot import telegram_bot_sendtext
-from exchange_streamer.transaction_management relaying_result
-from exchange_streamer.utilities import string_modification as str_mod, system_tools
+from ws_streamer.messaging.telegram_bot import telegram_bot_sendtext
+from ws_streamer.transaction_management import relaying_result
+from ws_streamer.utilities import string_modification as str_mod, system_tools
 
 
 async def main():

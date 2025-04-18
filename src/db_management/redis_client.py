@@ -16,7 +16,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 from messaging.telegram_bot import telegram_bot_sendtext
-from utilities.system_tools import parse_error_message
+from ws_streamer.utilities.system_tools import parse_error_message
 
 
 class RedisPubSubManager:

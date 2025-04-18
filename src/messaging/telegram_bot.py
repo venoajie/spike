@@ -5,7 +5,7 @@ import asyncio
 import httpx
 
 # user defined formula
-from configuration import config
+from ws_streamer.configuration import config
 
 
 async def private_connection(
