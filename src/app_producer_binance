@@ -27,7 +27,7 @@ async def main():
     # registering strategy config file    
     file_toml = "config_strategies.toml"
     
-    sub_account_id = "deribit-148510"
+    sub_account_id = "binance-None"
     
     exchange = "binance"
     try:
@@ -59,7 +59,6 @@ async def main():
                 exchange,
                 redis_channels,
                 queue,
-                sub_account_id,
 )
             ) 
                         
