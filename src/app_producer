@@ -17,7 +17,7 @@ from messaging import telegram_bot as tlgrm
 
 #from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
 from ws_streamer.data_receiver import binance
-from ws_streamer.transaction_management import distributing_ws_data as distr_binance
+from ws_streamer.data_announcer import binance as distr_binance
 from ws_streamer.utilities import string_modification as str_mod, system_tools
 
 
