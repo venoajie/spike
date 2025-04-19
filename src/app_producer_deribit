@@ -16,8 +16,8 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 from messaging import telegram_bot as tlgrm
 
 #from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
-from ws_streamer.data_receiver import binance as receiver_binance
-from ws_streamer.data_announcer import binance as distr_binance
+from ws_streamer.data_receiver import deribit
+from ws_streamer.transaction_management import deribit_distributing_ws_data as distr_deribit
 from ws_streamer.utilities import string_modification as str_mod, system_tools
 
 
@@ -28,8 +28,6 @@ async def main():
     file_toml = "config_strategies.toml"
     
     sub_account_id = "deribit-148510"
-    
-    EXCHANGE = "binance"
     
     try:
 
@@ -52,7 +50,7 @@ async def main():
 
         queue = Queue(maxsize=1)
 
-        stream_binance = receiver_binance.StreamingDataBinance(sub_account_id)
+        stream_binance = deribit.StreamingDataBinance(sub_account_id)
                 
         producer_task_binance = asyncio.create_task(
             stream_binance.ws_manager(
@@ -62,11 +60,9 @@ async def main():
 )
             ) 
                         
-        distributing_data_binance = asyncio.create_task(
-            distr_binance.caching_distributing_data(
+        saving_task_binance = asyncio.create_task(
+            distr_deribit.caching_distributing_data(
                 client_redis,
-                EXCHANGE,
-                sub_account_id,
                 redis_channels,
                 queue,
                 )
@@ -78,7 +74,7 @@ async def main():
             
             producer_task_binance,
 
-            distributing_data_binance,
+            saving_task_binance,
                                 )  
 
         await queue.join()
