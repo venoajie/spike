@@ -29,6 +29,7 @@ async def main():
     
     sub_account_id = "deribit-148510"
     
+    exchange = "binance"
     try:
 
         pool = aioredis.ConnectionPool.from_url(
@@ -55,8 +56,10 @@ async def main():
         producer_task_binance = asyncio.create_task(
             stream_binance.ws_manager(
                 client_redis,
+                exchange,
                 redis_channels,
                 queue,
+                sub_account_id,
 )
             ) 
                         
