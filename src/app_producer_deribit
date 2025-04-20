@@ -12,10 +12,8 @@ import redis.asyncio as aioredis
 #from redistimeseries.client import Client
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
-from data_cleaning import pruning_db
-from messaging import telegram_bot as tlgrm
-from transaction_management.deribit import api_requests, get_instrument_summary,starter
+from ws_streamer.messaging import telegram_bot as tlgrm
+from ws_streamer.restful_api.deribit import api_requests, get_instrument_summary,starter
 
 
 from ws_streamer.data_receiver import deribit as receiver_deribit
@@ -134,10 +132,6 @@ async def main():
             
             saving_task_deribit,
 
-            system_tools.back_up_db(60*10),
-            
-            pruning_db.clean_up_databases(60)
-            
                         )  
 
         await queue.join()
