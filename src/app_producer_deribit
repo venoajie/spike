@@ -19,7 +19,7 @@ from transaction_management.deribit import api_requests, get_instrument_summary,
 
 
 from ws_streamer.data_receiver import deribit as receiver_deribit
-from ws_streamer.data_announcer import deribit as distr_deribit
+from ws_streamer.data_announcer.deribit import distributing_ws_data as distr_deribit
 from ws_streamer.utilities import  string_modification as str_mod,system_tools
 
 async def main():

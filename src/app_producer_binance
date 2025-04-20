@@ -17,7 +17,7 @@ from messaging import telegram_bot as tlgrm
 
 #from exchange_streamer.streaming_data.data_producer_binance import StreamingDataBinance
 from ws_streamer.data_receiver import binance as receiver_binance
-from ws_streamer.data_announcer import binance as distr_binance
+from ws_streamer.data_announcer.binance import distributing_ws_data as distr_binance
 from ws_streamer.utilities import  system_tools
 
 
@@ -30,6 +30,7 @@ async def main():
     sub_account_id = "binance-None"
     
     exchange = "binance"
+    
     try:
 
         pool = aioredis.ConnectionPool.from_url(
