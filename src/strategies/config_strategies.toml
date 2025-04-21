@@ -47,3 +47,98 @@ chart = "market:chart"
 user_changes = "user_changes"
 market_condition = "market:market_condition"
 
+
+[[strategies]]
+strategy_label = "hedgingSpot"
+is_active = true
+contribute_to_hedging = true
+cancellable = true
+non_checked_for_size_label_consistency = false
+side = "sell"
+take_profit_pct = 0
+settlement_period = ["perpetual", "week"]
+weighted_factor = {minimum = 1, medium = 5, extreme=10, flash_crash= 20}
+waiting_minute_before_cancel = 3 #basis?
+halt_minute_before_reorder= 240
+max_leverage= 1
+delta_price_pct= 0.005
+sub_account_max_open_orders = {per_instrument = 50, total = 200}
+mode_full= true
+reduce_only= false
+
+
+[[strategies]]
+strategy_label = "futureSpread"
+is_active = true
+contribute_to_hedging = true
+cancellable = true
+non_checked_for_size_label_consistency = true
+side = "sell"
+take_profit_pct = 0
+settlement_period =  ["week", "month"]
+weighted_factor = { minimum = 1, medium = 5, extreme=10, flash_crash= 20}
+waiting_minute_before_cancel = 3 #basis?
+waiting_minute_before_relabelling = 15 #basis? waiting minute before reorder  15 min
+halt_minute_before_reorder= 240
+max_leverage= 10
+delta_price_pct= 0.1
+monthly_profit_pct= 0.5
+sub_account_max_open_orders = {per_instrument = 50, total = 200}
+mode_full= false
+reduce_only= true
+       
+
+[[strategies]]
+strategy_label = "futureSpreadAuto"
+is_active = true
+contribute_to_hedging = true
+cancellable = false
+non_checked_for_size_label_consistency = true
+side = "sell"
+take_profit_pct = 0
+settlement_period =  ["week", "month"]
+weighted_factor = { minimum = 1, medium = 5, extreme=10, flash_crash= 20}
+waiting_minute_before_cancel = 10 #basis?
+waiting_minute_before_relabelling = 15 #basis?
+halt_minute_before_reorder= 240
+max_leverage= 10
+delta_price_pct= 0.1
+monthly_profit_pct= 0.5
+sub_account_max_open_orders = {per_instrument = 50, total = 200}
+mode_full= false
+reduce_only= true
+
+[[strategies]]
+strategy_label = "comboAuto"
+is_active = false
+contribute_to_hedging = true
+cancellable = true
+non_checked_for_size_label_consistency = true
+side = "sell"
+take_profit_pct = 0
+settlement_period =  ["week", "month"]
+weighted_factor = { minimum = 1, medium = 5, extreme=10, flash_crash= 20}
+waiting_minute_before_cancel = 3 #basis?
+waiting_minute_before_relabelling = 15 #basis?
+halt_minute_before_reorder= 240
+max_leverage= 10
+monthly_profit_pct= 0.5
+delta_price_pct= 0.1
+sub_account_max_open_orders = {per_instrument = 50, total = 200}
+
+[[strategies]]
+strategy_label = "custom"
+is_active = false
+contribute_to_hedging = false
+cancellable = false
+non_checked_for_size_label_consistency = true
+side = []
+take_profit_pct = 0
+settlement_period = ["perpetual", "week", "month"]
+weighted_factor = { minimum = 1, medium = 5, extreme=10, flash_crash= 20}
+waiting_minute_before_cancel = []
+halt_minute_before_reorder= 240
+max_leverage= 1
+delta_price_pct= 0.005
+sub_account_max_open_orders = {per_instrument = 50, total = 200}
+
