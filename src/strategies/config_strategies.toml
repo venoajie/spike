@@ -1,4 +1,49 @@
 
+[[tradable]]
+spot = [
+    "BTC",
+    "ETH",
+    #"XRP",
+    #"SOL",     
+       ]
+
 [[redis_channels]]
 # naming convention: ws/fix channel + action + attributes
 abnormal_trading_notices = "market.abnormal_trading_notices"
+
+
+[[redis_channels]]
+# naming convention: ws/fix channel + action + attributes
+chart_update = "market.chart.all"
+chart_low_high_tick = "market.chart.low_high_tick"
+ticker_update_data = "market.ticker.data"
+ticker_cache_updating = "market.ticker.cached"
+market_analytics_update = "market.analytics"
+abnormal_trading_notices = "market.abnormal_trading_notices"
+
+portfolio = "account.portfolio.ws"
+portfolio_rest = "account.portfolio.rest"
+order_rest = "account.order.rest"
+order_receiving = "account.user_changes.order"
+my_trade_receiving = "account.user_changes.my_trade"
+sub_account_receiving = "account.user_changes.sub_account"
+order_is_allowed = "account.is_order_allowed"
+order_cache_updating = "account.sub_account.cached_order"
+my_trades_cache_updating = "account.sub_account.cached_trade"
+position_cache_updating = "account.sub_account.cached_positions"
+sub_account_cache_updating = "account.sub_account.cached_all"
+market_summary_updating = "others.summary.cached_all"
+account_summary_updating = "others.summary.cached_all"
+sqlite_record_updating = "others.sqlite_record_updating"
+
+[[redis_keys]]
+orders = "order"
+mytrade_btc = "mytrade:btc"
+mytrade_eth = "mytrade:eth"
+trades = "order:trade"
+portfolio = "account:portfolio"
+ticker = "market:ticker"
+chart = "market:chart"
+user_changes = "user_changes"
+market_condition = "market:market_condition"
+
