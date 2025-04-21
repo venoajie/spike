@@ -142,3 +142,10 @@ max_leverage= 1
 delta_price_pct= 0.005
 sub_account_max_open_orders = {per_instrument = 50, total = 200}
 
+
+[[relevant_tables]]
+my_trades_table = "my_trades_all_json"
+orders_table = "orders_all_json"
+closed_table = "my_trades_closed_json"
+transaction_log = "transaction_log"
+archive = "my_trades_all"
